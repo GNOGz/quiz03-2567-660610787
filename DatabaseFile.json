@@ -14,11 +14,7 @@
     }
   ],
   "messages": [
-    {
-      "roomId": "okhkUzffzCGMqtfC1uv6x",
-      "messageId": "Yi4K5qb-K8iMTgq_zwo0_",
-      "messageText": "Hi bro!"
-    },
+    null,
     {
       "roomId": "okhkUzffzCGMqtfC1uv6x",
       "messageId": "f8rM7yKv7FRLokgwU7wfg",
@@ -42,6 +38,21 @@
     {
       "roomId": "okhkUzffzCGMqtfC1uv6x",
       "messageId": "9tKtNi-yQhvZ-4NfCpGqG",
+      "messageText": "สวัสดีจ่ะ"
+    },
+    {
+      "roomId": "okhkUzffzCGMqtfC1uv6x",
+      "messageId": "RdUdzF2Pi_MUMZ5o3THsz",
+      "messageText": "สวัสดีจ่ะ"
+    },
+    {
+      "roomId": "okhkUzffzCGMqtfC1uv6x",
+      "messageId": "vrNPJbQjw2vdGMxeCCZmb",
+      "messageText": "สวัสดีจ่ะ"
+    },
+    {
+      "roomId": "okhkUzffzCGMqtfC1uv6x",
+      "messageId": "ooiooLilflk-hpvkIEOYz",
       "messageText": "สวัสดีจ่ะ"
     }
   ],

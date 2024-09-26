@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { LowSync, MemorySync } from "lowdb";
 import { JSONFileSync } from "lowdb/node";
-export type DB_Type = {
+export interface DB_Type  {
   rooms : Room[],
   messages: Message[],
   users : User[]
@@ -67,7 +67,7 @@ const adapter = onProduction
   ? new MemorySync()
   : new JSONFileSync("DatabaseFile.json");
 let lowDB = new LowSync(adapter, originalDB);
-export let DB:DB_Type|any = onProduction ? _.cloneDeep(originalDB) : lowDB.data;
+export let DB = onProduction ? _.cloneDeep(originalDB) : lowDB.data;
 
 export function resetDB() {
   if (onProduction) {

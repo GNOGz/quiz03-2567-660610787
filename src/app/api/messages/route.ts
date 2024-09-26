@@ -1,15 +1,15 @@
-import { DB, readDB, writeDB } from "@lib/DB";
+import { DB, readDB, Room, writeDB } from "@lib/DB";
 import { checkToken } from "@lib/checkToken";
 import { nanoid } from "nanoid";
 import { NextRequest, NextResponse } from "next/server";
 import { Message } from "@lib/DB";
 import { Payload } from "@lib/DB";
-
+import { DB_Type } from "@lib/DB";
 export const GET = async (request: NextRequest) => {
   readDB();
   const roomId = request.nextUrl.searchParams.get("roomId");
 
-  const foundRoom = DB.messages.filter((message:Message)=> message.roomId === roomId);
+  const foundRoom = (<DB_Type>DB).messages.filter((message:Message)=> message.roomId === roomId);
   if(foundRoom.length < 1){
     return NextResponse.json(
     {
@@ -34,7 +34,7 @@ export const POST = async (request: NextRequest) => {
 
   const body = await request.json();
   const { roomId,messageText } = body;
-  const foundRoom = DB.rooms.find((message:Message)=> message.roomId === roomId);
+  const foundRoom = (<DB_Type>DB).rooms.find((message:Room)=> message.roomId === roomId);
   if(!foundRoom ){
     return NextResponse.json(
     {
@@ -45,11 +45,13 @@ export const POST = async (request: NextRequest) => {
     );
   }
   const messageId = nanoid();
-  DB.messages.push({
-    roomId,
-    messageId,
-    messageText,
-  })
+  const pushedMsg:Message = {
+    roomId : roomId,
+    messageId : messageId,
+    messageText : messageText,
+  };
+
+  (<DB_Type>DB).messages.push(pushedMsg)
   writeDB();
 
   return NextResponse.json({
@@ -78,7 +80,7 @@ export const DELETE = async (request: NextRequest) => {
   readDB();
   const body = await request.json();
   const { messageId } = body;
-  const foundMsg = DB.messages.find((msg:Message)=>msg.messageId === messageId);
+  const foundMsg = (<DB_Type>DB).messages.find((msg:Message)=>msg.messageId === messageId);
   if (!foundMsg){
       return NextResponse.json(
         {
@@ -88,9 +90,9 @@ export const DELETE = async (request: NextRequest) => {
         { status: 404 }
       );
   }
-  const index:number = DB.message.findIndex((msg:Message)=> msg.messageId === messageId)
+  const index:number = (<DB_Type>DB).messages.findIndex((msg:Message)=> msg.messageId === messageId)
   console.log(index);
-  delete DB.messages[index];
+  delete (<DB_Type>DB).messages[index];
   writeDB();
 
   return NextResponse.json({
