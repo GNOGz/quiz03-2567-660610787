@@ -1,7 +1,15 @@
 import _ from "lodash";
 import { LowSync, MemorySync } from "lowdb";
 import { JSONFileSync } from "lowdb/node";
-
+export type DB_Type = {
+  rooms : Room[],
+  messages: Message[],
+  users : User[]
+};
+export interface Payload  {
+  username:string,
+  role:string,
+}
 export interface Room {
   roomId: string;
   roomName: string;
@@ -19,7 +27,7 @@ export interface User {
   role: "ADMIN" | "SUPER_ADMIN";
 }
 
-const originalDB = {
+const originalDB:DB_Type = {
   rooms: [
     {
       roomId: "okhkUzffzCGMqtfC1uv6x",
@@ -59,7 +67,7 @@ const adapter = onProduction
   ? new MemorySync()
   : new JSONFileSync("DatabaseFile.json");
 let lowDB = new LowSync(adapter, originalDB);
-export let DB = onProduction ? _.cloneDeep(originalDB) : lowDB.data;
+export let DB:DB_Type|any = onProduction ? _.cloneDeep(originalDB) : lowDB.data;
 
 export function resetDB() {
   if (onProduction) {
