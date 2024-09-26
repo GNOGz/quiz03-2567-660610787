@@ -8,7 +8,7 @@ import { DB_Type } from "@lib/DB";
 export const GET = async (request: NextRequest) => {
   readDB();
   const roomId = request.nextUrl.searchParams.get("roomId");
-
+  console.log(roomId);
   const foundRoom = (<DB_Type>DB).messages.filter((message:Message)=> message.roomId === roomId);
   if(foundRoom.length < 1){
     return NextResponse.json(
@@ -90,9 +90,7 @@ export const DELETE = async (request: NextRequest) => {
         { status: 404 }
       );
   }
-  const index:number = (<DB_Type>DB).messages.findIndex((msg:Message)=> msg.messageId === messageId)
-  console.log(index);
-  delete (<DB_Type>DB).messages[index];
+  (<DB_Type>DB).messages = (<DB_Type>DB).messages.filter((msg) => msg.messageId !== messageId);
   writeDB();
 
   return NextResponse.json({
